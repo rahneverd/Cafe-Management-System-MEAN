@@ -6,10 +6,10 @@ exports.create = function (req, res) {
 		.create()
 		.then(() => {
 			res.send(req.body);
-			// console.log('resolved');
+			console.log('resolved');
 		})
 		.catch((errors) => {
 			res.send(errors);
-			// console.log(errors);
+			console.log(errors);
 		});
 };
