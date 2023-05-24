@@ -5,7 +5,7 @@ exports.create = function (req, res) {
 	product
 		.create()
 		.then((response) => {
-			res.send(response);
+			res.send({ ...response, ...product.data, id: response.insertedId });
 		})
 		.catch(() => {
 			res.send(product.errors);

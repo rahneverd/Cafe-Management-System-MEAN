@@ -49,7 +49,7 @@ Product.prototype.validate = function () {
 	}
 };
 
-Product.prototype.validateFromDB = function () {
+Product.prototype.validateFromDB = function (nameOfProperty, valueOfProperty) {
 	return new Promise((resolve, reject) => {
 		if (this.errors.length === 0) {
 			productsCollection
@@ -165,5 +165,7 @@ Product.prototype.update = function (postId) {
 		}
 	});
 };
+
+Product.prototype.delete = function () {};
 
 module.exports = Product;
