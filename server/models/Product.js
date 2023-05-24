@@ -1,4 +1,5 @@
 const productsCollection = require('../db').collection('products');
+const ObjectID = require('mongodb').ObjectId;
 const validator = require('validator');
 
 let Product = function (data) {
@@ -8,7 +9,6 @@ let Product = function (data) {
 };
 
 Product.prototype.cleanUp = function () {
-	console.log('inside cleanup');
 	if (typeof this.data.name != 'string') {
 		this.data.name = '';
 	}
@@ -133,9 +133,10 @@ Product.prototype.update = function (postId) {
 		if (this.errors.length > 0) {
 			reject();
 		} else {
+			console.log(new ObjectID(postId));
 			productsCollection
 				.findOneAndUpdate(
-					{ _id: postId },
+					{ _id: new ObjectID(postId) },
 					{
 						$set: {
 							name: this.data.name,
@@ -146,7 +147,15 @@ Product.prototype.update = function (postId) {
 				)
 				.then((response) => {
 					console.log(response);
-					resolve(response);
+					if (response.lastErrorObject.updatedExisting) {
+						resolve({
+							old: response.value,
+							new: this.data,
+						});
+					} else {
+						this.errors.push('Please try again later.');
+						reject();
+					}
 				})
 				.catch((error) => {
 					this.errors.push(error.message);
