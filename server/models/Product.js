@@ -17,9 +17,9 @@ Product.prototype.cleanUp = function () {
 		this.data.price = '';
 	}
 	this.data = {
-		name: this.data.name,
-		category: this.data.category,
-		price: this.data.price,
+		name: this.data.name.trim(),
+		category: this.data.category.trim(),
+		price: this.data.price.trim(),
 	};
 };
 
