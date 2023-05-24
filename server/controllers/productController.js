@@ -34,4 +34,37 @@ exports.update = function (req, res) {
 			res.send(product.errors);
 		});
 };
-exports.delete = function (req, res) {};
+exports.delete = function (req, res) {
+	let product = new Product(req.body.product);
+	product
+		.delete(req.body.id)
+		.then((response) => {
+			res.send(response);
+		})
+		.catch(() => {
+			res.send(product.errors);
+		});
+};
+exports.readById = function (req, res) {
+	let product = new Product(req.body.product);
+	product
+		.readById(req.body.id)
+		.then((response) => {
+			res.send(response);
+		})
+		.catch(() => {
+			res.send(product.errors);
+		});
+};
+exports.readByCategory = function (req, res) {
+	let product = new Product(req.body.product);
+	product
+		.readByCategory()
+		.then((response) => {
+			res.send(response);
+		})
+		.catch((errors) => {
+			console.log(errors);
+			res.send(product.errors);
+		});
+};

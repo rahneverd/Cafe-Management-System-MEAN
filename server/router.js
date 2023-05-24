@@ -20,5 +20,7 @@ router.post('/product/create', productController.create);
 router.post('/product/read', productController.read);
 router.post('/product/update', productController.update);
 router.post('/product/delete', productController.delete);
+router.post('/product/readbyid', productController.readById);
+router.post('/product/readbycategory', productController.readByCategory);
 
 module.exports = router;

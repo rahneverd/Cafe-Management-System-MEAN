@@ -49,7 +49,7 @@ Product.prototype.validate = function () {
 	}
 };
 
-Product.prototype.validateFromDB = function (nameOfProperty, valueOfProperty) {
+Product.prototype.validateFromDB = function () {
 	return new Promise((resolve, reject) => {
 		if (this.errors.length === 0) {
 			productsCollection
@@ -112,17 +112,6 @@ Product.prototype.read = function () {
 		} else {
 			resolve(result);
 		}
-		// });
-		console.log('at the end');
-		// .then((products) => {
-		// 	console.log(products);
-		// 	resolve(products);
-		// })
-		// .catch((error) => {
-		// 	console.log(error);
-		// 	product.errors.push(error.message);
-		// 	reject();
-		// });
 	});
 };
 
@@ -161,11 +150,60 @@ Product.prototype.update = function (postId) {
 					this.errors.push(error.message);
 					reject();
 				});
-			// resolve();
 		}
 	});
 };
 
-Product.prototype.delete = function () {};
+Product.prototype.delete = function (postId) {
+	return new Promise((resolve, reject) => {
+		productsCollection
+			.findOneAndDelete({ _id: new ObjectID(postId) })
+			.then((response) => {
+				if (response.lastErrorObject.n === 1) {
+					resolve({ deleted: true });
+				} else {
+					this.errors.push('Invalid object');
+					reject();
+				}
+			})
+			.catch((error) => {
+				this.errors.push(error.message);
+				reject();
+			});
+	});
+};
+
+Product.prototype.readById = function (postId) {
+	return new Promise((resolve, reject) => {
+		productsCollection
+			.findOne({ _id: new ObjectID(postId) })
+			.then((product) => {
+				if (product != '' && product != null && product != undefined) {
+					resolve(product);
+				} else {
+					this.errors.push('Invalid post ID: ' + postId);
+					reject();
+				}
+			})
+			.catch((error) => {
+				this.errors.push(error.message);
+				reject();
+			});
+	});
+};
+
+Product.prototype.readByCategory = function () {
+	return new Promise(async (resolve, reject) => {
+		let products = await productsCollection
+			.find({ category: this.data.category })
+			.toArray();
+		if (products.length > 0) {
+			resolve(products);
+		} else {
+			this.errors.push('Found no product with this category');
+			reject();
+		}
+	});
+};
 
 module.exports = Product;
