@@ -17,5 +17,8 @@ router.get('/ums/login', userController.login);
 
 // Product Routes
 router.post('/product/create', productController.create);
+router.post('/product/read', productController.read);
+router.post('/product/update', productController.update);
+router.post('/product/delete', productController.delete);
 
 module.exports = router;
