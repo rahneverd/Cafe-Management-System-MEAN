@@ -79,7 +79,6 @@ Product.prototype.create = function () {
 		this.validate();
 		this.validateFromDB()
 			.then(() => {
-				console.log('inside then');
 				if (this.errors.length > 0) {
 					reject();
 				} else {

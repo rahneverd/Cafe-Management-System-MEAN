@@ -12,8 +12,8 @@ router.get('/', (req, res) => {
 });
 
 // User Routes
-router.get('/ums/register', userController.register);
-router.get('/ums/login', userController.login);
+router.post('/ums/register', userController.register);
+router.post('/ums/login', userController.login);
 
 // Product Routes
 router.post('/product/create', productController.create);
