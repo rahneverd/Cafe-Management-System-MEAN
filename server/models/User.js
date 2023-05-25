@@ -7,6 +7,14 @@ let User = function (data) {
 	this.errors = [];
 };
 
+User.prototype.cleanUpForLogin = function () {
+	if (validator.isEmail(this.data.username)) {
+		this.data.username = 'anyone';
+	} else if (!validator.isEmail(this.data.email)) {
+		this.data.email = 'anyone@anywhere.any';
+	}
+};
+
 User.prototype.cleanUp = function () {
 	if (typeof this.data.username != 'string') {
 		this.data.name = '';
@@ -134,6 +142,7 @@ User.prototype.register = function () {
 
 User.prototype.login = function () {
 	return new Promise((resolve, reject) => {
+		this.cleanUpForLogin();
 		this.cleanUp();
 		this.validate();
 		if (this.errors.length > 0) {
