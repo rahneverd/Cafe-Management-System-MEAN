@@ -2,6 +2,7 @@ const router = require('express').Router();
 const userController = require('./controllers/userController');
 const tableController = require('./controllers/tableController');
 const productController = require('./controllers/productController');
+const cafeController = require('./controllers/cafeController');
 
 // Home route
 router.get('/', (req, res) => {
@@ -15,6 +16,8 @@ router.get('/', (req, res) => {
 router.post('/ums/register', userController.register);
 router.post('/ums/login', userController.login);
 
+// Cafe Routes
+router.post('/cafe/register', cafeController.register);
 // Product Routes
 router.post('/product/create', productController.create);
 router.post('/product/read', productController.read);
